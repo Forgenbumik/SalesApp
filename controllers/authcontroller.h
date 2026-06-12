@@ -24,6 +24,15 @@ public:
                       const QString& email,
                       QString& errorMessage);
 
+    bool updateProfile(int userId,
+                       const QString& fullName,
+                       const QString& phone,
+                       const QString& email,
+                       const QString& newPassword,
+                       const QString& repeatPassword,
+                       User& updatedUser,
+                       QString& errorMessage);
+
     bool isPasswordStrong(const QString& password) const;
 
 private:

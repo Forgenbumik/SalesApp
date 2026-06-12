@@ -9,6 +9,7 @@
 #include "productswindow.h"
 #include "customerswindow.h"
 #include "dealswindow.h"
+#include "profilewindow.h"
 
 class MainWindow : public QMainWindow
 {
@@ -31,14 +32,18 @@ private:
     QPushButton* dealsButton;
     QPushButton* usersButton;
     QPushButton* discountsButton;
+    QPushButton* profileButton;
 
     ProductsWindow* productsWindow;
     CustomersWindow* customersWindow;
     DealsWindow* dealsWindow;
+    ProfileWindow* profileWindow;
 private slots:
     void openProductsWindow();
     void openCustomersWindow();
     void openDealsWindow();
+    void openProfileWindow();
+    void updateCurrentUser(const User& user);
 };
 
 #endif // MAINWINDOW_H

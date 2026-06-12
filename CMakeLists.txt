@@ -54,6 +54,8 @@ set(PROJECT_SOURCES
         views/customerswindow.cpp
         views/dealswindow.h
         views/dealswindow.cpp
+        views/profilewindow.h
+        views/profilewindow.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -74,6 +76,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         views/dealswindow.h views/dealswindow.cpp
         repositories/userrepository.h repositories/userrepository.cpp
         views/registerwindow.h views/registerwindow.cpp
+        views/profilewindow.h views/profilewindow.cpp
+        database/databasemanager.cpp
     )
 else()
     add_executable(SalesApp

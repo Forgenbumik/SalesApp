@@ -41,6 +41,18 @@ bool UserRepository::findByLoginAndPassword(const QString& login, const QString&
     return false;
 }
 
+bool UserRepository::findById(int id, User& user) const
+{
+    for (const User& item : users) {
+        if (item.id() == id) {
+            user = item;
+            return true;
+        }
+    }
+
+    return false;
+}
+
 bool UserRepository::loginExists(const QString& login) const
 {
     for (const User& item : users) {
@@ -57,4 +69,19 @@ void UserRepository::add(const User& user)
     User newUser = user;
     newUser.setId(nextId++);
     users.append(newUser);
+}
+
+bool UserRepository::updateProfile(const User& user)
+{
+    for (User& item : users) {
+        if (item.id() == user.id()) {
+            item.setFullName(user.fullName());
+            item.setPhone(user.phone());
+            item.setEmail(user.email());
+            item.setPassword(user.password());
+            return true;
+        }
+    }
+
+    return false;
 }

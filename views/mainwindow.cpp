@@ -5,7 +5,8 @@ MainWindow::MainWindow(const User& user, QWidget* parent)
     currentUser(user),
     productsWindow(nullptr),
     customersWindow(nullptr),
-    dealsWindow(nullptr)
+    dealsWindow(nullptr),
+    profileWindow(nullptr)
 {
     setWindowTitle("Система обработки сделок");
     resize(600, 400);
@@ -17,6 +18,8 @@ MainWindow::MainWindow(const User& user, QWidget* parent)
     roleLabel = new QLabel("Пользователь: " + currentUser.login()
                                + " | Роль: " + currentUser.role(), this);
 
+    profileButton = new QPushButton("Профиль", this);
+
     productsButton = new QPushButton("Товары", this);
     customersButton = new QPushButton("Покупатели", this);
     dealsButton = new QPushButton("Сделки", this);
@@ -26,6 +29,8 @@ MainWindow::MainWindow(const User& user, QWidget* parent)
     mainLayout->addWidget(titleLabel);
     mainLayout->addWidget(roleLabel);
     mainLayout->addSpacing(20);
+
+    mainLayout->addWidget(profileButton);
 
     mainLayout->addWidget(productsButton);
     mainLayout->addWidget(customersButton);
@@ -48,6 +53,8 @@ MainWindow::MainWindow(const User& user, QWidget* parent)
             this, &MainWindow::openCustomersWindow);
     connect(dealsButton, &QPushButton::clicked,
             this, &MainWindow::openDealsWindow);
+    connect(profileButton, &QPushButton::clicked,
+            this, &MainWindow::openProfileWindow);
 }
 
 void MainWindow::openProductsWindow()
@@ -81,4 +88,26 @@ void MainWindow::openDealsWindow()
     dealsWindow->show();
     dealsWindow->raise();
     dealsWindow->activateWindow();
+}
+
+void MainWindow::openProfileWindow()
+{
+    if (profileWindow == nullptr) {
+        profileWindow = new ProfileWindow(currentUser);
+
+        connect(profileWindow, &ProfileWindow::profileUpdated,
+                this, &MainWindow::updateCurrentUser);
+    }
+
+    profileWindow->show();
+    profileWindow->raise();
+    profileWindow->activateWindow();
+}
+
+void MainWindow::updateCurrentUser(const User& user)
+{
+    currentUser = user;
+
+    roleLabel->setText("Пользователь: " + currentUser.login()
+                       + " | Роль: " + currentUser.role());
 }

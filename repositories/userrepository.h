@@ -10,9 +10,14 @@ public:
     UserRepository();
 
     QVector<User> getAll() const;
+
     bool findByLoginAndPassword(const QString& login, const QString& password, User& user) const;
+    bool findById(int id, User& user) const;
+
     bool loginExists(const QString& login) const;
+
     void add(const User& user);
+    bool updateProfile(const User& user);
 
 private:
     QVector<User> users;

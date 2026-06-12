@@ -83,6 +83,80 @@ bool AuthController::registerUser(const QString& login,
     return true;
 }
 
+bool AuthController::updateProfile(int userId,
+                                   const QString& fullName,
+                                   const QString& phone,
+                                   const QString& email,
+                                   const QString& newPassword,
+                                   const QString& repeatPassword,
+                                   User& updatedUser,
+                                   QString& errorMessage)
+{
+    User currentUser;
+
+    if (!repository.findById(userId, currentUser)) {
+        errorMessage = "Пользователь не найден";
+        return false;
+    }
+
+    QString cleanFullName = fullName.trimmed();
+    QString cleanPhone = phone.trimmed();
+    QString cleanEmail = email.trimmed();
+
+    if (cleanFullName.isEmpty()) {
+        errorMessage = "Введите ФИО";
+        return false;
+    }
+
+    if (!isValidPhone(cleanPhone)) {
+        errorMessage = "Введите телефон в формате +79991234567";
+        return false;
+    }
+
+    if (!isValidEmail(cleanEmail)) {
+        errorMessage = "Введите корректный email";
+        return false;
+    }
+
+    QString passwordForSave = currentUser.password();
+
+    bool userWantsChangePassword = !newPassword.isEmpty() || !repeatPassword.isEmpty();
+
+    if (userWantsChangePassword) {
+        if (newPassword != repeatPassword) {
+            errorMessage = "Пароли не совпадают";
+            return false;
+        }
+
+        if (!isPasswordStrong(newPassword)) {
+            errorMessage = "Пароль: минимум 8 символов, цифра, заглавная буква и спецсимвол";
+            return false;
+        }
+
+        passwordForSave = newPassword;
+    }
+
+    User userForUpdate(
+        currentUser.id(),
+        currentUser.login(),
+        passwordForSave,
+        cleanFullName,
+        cleanPhone,
+        cleanEmail,
+        currentUser.role()
+        );
+
+    if (!repository.updateProfile(userForUpdate)) {
+        errorMessage = "Не удалось обновить профиль";
+        return false;
+    }
+
+    updatedUser = userForUpdate;
+    errorMessage = "";
+
+    return true;
+}
+
 bool AuthController::isPasswordStrong(const QString& password) const
 {
     QRegularExpression regex("^(?=.*[A-Z])(?=.*\\d)(?=.*[^A-Za-z0-9]).{8,}$");

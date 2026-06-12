@@ -2,19 +2,23 @@
 
 #include <QVBoxLayout>
 #include <QFormLayout>
-#include <QMessageBox>
+#include <QHBoxLayout>
 
 LoginWindow::LoginWindow(QWidget* parent)
-    : QWidget(parent)
+    : QWidget(parent),
+    registerWindow(nullptr)
 {
     setWindowTitle("Авторизация");
-    resize(350, 200);
+    resize(350, 220);
 
     authController = new AuthController(this);
 
     loginEdit = new QLineEdit(this);
     passwordEdit = new QLineEdit(this);
+
     loginButton = new QPushButton("Войти", this);
+    registerButton = new QPushButton("Регистрация", this);
+
     errorLabel = new QLabel(this);
 
     passwordEdit->setEchoMode(QLineEdit::Password);
@@ -26,15 +30,22 @@ LoginWindow::LoginWindow(QWidget* parent)
     formLayout->addRow("Логин:", loginEdit);
     formLayout->addRow("Пароль:", passwordEdit);
 
+    QHBoxLayout* buttonsLayout = new QHBoxLayout();
+    buttonsLayout->addWidget(loginButton);
+    buttonsLayout->addWidget(registerButton);
+
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
     mainLayout->addLayout(formLayout);
-    mainLayout->addWidget(loginButton);
+    mainLayout->addLayout(buttonsLayout);
     mainLayout->addWidget(errorLabel);
 
     setLayout(mainLayout);
 
     connect(loginButton, &QPushButton::clicked,
             this, &LoginWindow::onLoginClicked);
+
+    connect(registerButton, &QPushButton::clicked,
+            this, &LoginWindow::onRegisterClicked);
 }
 
 void LoginWindow::onLoginClicked()
@@ -50,4 +61,15 @@ void LoginWindow::onLoginClicked()
     } else {
         errorLabel->setText("Неверный логин или пароль");
     }
+}
+
+void LoginWindow::onRegisterClicked()
+{
+    if (registerWindow == nullptr) {
+        registerWindow = new RegisterWindow();
+    }
+
+    registerWindow->show();
+    registerWindow->raise();
+    registerWindow->activateWindow();
 }

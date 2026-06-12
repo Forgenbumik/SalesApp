@@ -17,17 +17,43 @@ set(PROJECT_SOURCES
 
     models/user.h
     models/user.cpp
+    models/product.h
+    models/product.cpp
+    models/customer.h
+    models/customer.cpp
+    models/deal.h
+    models/deal.cpp
 
-    controllers/authcontroller.h
-    controllers/authcontroller.cpp
-    controllers/productcontroller.h
-    controllers/productcontroller.cpp
+    repositories/userrepository.h
+        repositories/userrepository.cpp
+        repositories/productrepository.h
+        repositories/productrepository.cpp
+        repositories/customerrepository.h
+        repositories/customerrepository.cpp
+        repositories/dealrepository.h
+        repositories/dealrepository.cpp
 
-    views/loginwindow.h
-    views/loginwindow.cpp
+        controllers/authcontroller.h
+        controllers/authcontroller.cpp
+        controllers/productcontroller.h
+        controllers/productcontroller.cpp
+        controllers/customercontroller.h
+        controllers/customercontroller.cpp
+        controllers/dealcontroller.h
+        controllers/dealcontroller.cpp
 
-    views/mainwindow.h
-    views/mainwindow.cpp
+        views/loginwindow.h
+        views/loginwindow.cpp
+        views/registerwindow.h
+        views/registerwindow.cpp
+        views/mainwindow.h
+        views/mainwindow.cpp
+        views/productswindow.h
+        views/productswindow.cpp
+        views/customerswindow.h
+        views/customerswindow.cpp
+        views/dealswindow.h
+        views/dealswindow.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -46,6 +72,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         repositories/dealrepository.h repositories/dealrepository.cpp
         controllers/dealcontroller.h controllers/dealcontroller.cpp
         views/dealswindow.h views/dealswindow.cpp
+        repositories/userrepository.h repositories/userrepository.cpp
+        views/registerwindow.h views/registerwindow.cpp
     )
 else()
     add_executable(SalesApp

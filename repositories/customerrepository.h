@@ -10,13 +10,12 @@ public:
     CustomerRepository();
 
     QVector<Customer> getAll() const;
-    void add(const Customer& customer);
+    bool add(const Customer& customer);
     bool update(const Customer& customer);
     bool remove(int id);
 
 private:
-    QVector<Customer> customers;
-    int nextId;
+    bool phoneExists(const QString& phone, int excludeId = -1) const;
+    bool emailExists(const QString& email, int excludeId = -1) const;
 };
-
 #endif // CUSTOMERREPOSITORY_H

@@ -20,16 +20,16 @@ bool DealController::addDeal(const QString& customerName,
         return false;
     }
 
-    Deal deal(-1,
-              customerName.trimmed(),
-              productName.trimmed(),
-              quantity,
-              totalAmount,
-              status.trimmed());
+    Deal deal(
+        -1,
+        customerName.trimmed(),
+        productName.trimmed(),
+        quantity,
+        totalAmount,
+        status.trimmed()
+        );
 
-    repository.add(deal);
-
-    return true;
+    return repository.add(deal);
 }
 
 bool DealController::updateDeal(int id,
@@ -43,12 +43,14 @@ bool DealController::updateDeal(int id,
         return false;
     }
 
-    Deal deal(id,
-              customerName.trimmed(),
-              productName.trimmed(),
-              quantity,
-              totalAmount,
-              status.trimmed());
+    Deal deal(
+        id,
+        customerName.trimmed(),
+        productName.trimmed(),
+        quantity,
+        totalAmount,
+        status.trimmed()
+        );
 
     return repository.update(deal);
 }
@@ -84,7 +86,12 @@ bool DealController::isValidDealData(const QString& customerName,
         return false;
     }
 
-    if (status.trimmed().isEmpty()) {
+    QString cleanStatus = status.trimmed();
+
+    if (cleanStatus != "Новая"
+        && cleanStatus != "Оформлена"
+        && cleanStatus != "Закрыта"
+        && cleanStatus != "Отменена") {
         return false;
     }
 

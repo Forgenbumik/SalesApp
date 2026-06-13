@@ -16,10 +16,8 @@ bool ProductController::addProduct(const QString& name, double price, int quanti
         return false;
     }
 
-    Product product(-1, name, price, quantity);
-    repository.add(product);
-
-    return true;
+    Product product(-1, name.trimmed(), price, quantity);
+    return repository.add(product);
 }
 
 bool ProductController::updateProduct(int id, const QString& name, double price, int quantity)
@@ -28,7 +26,7 @@ bool ProductController::updateProduct(int id, const QString& name, double price,
         return false;
     }
 
-    Product product(id, name, price, quantity);
+    Product product(id, name.trimmed(), price, quantity);
     return repository.update(product);
 }
 

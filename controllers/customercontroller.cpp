@@ -17,10 +17,14 @@ bool CustomerController::addCustomer(const QString& fullName, const QString& pho
         return false;
     }
 
-    Customer customer(-1, fullName.trimmed(), phone.trimmed(), email.trimmed());
-    repository.add(customer);
+    Customer customer(
+        -1,
+        fullName.trimmed(),
+        phone.trimmed(),
+        email.trimmed()
+        );
 
-    return true;
+    return repository.add(customer);
 }
 
 bool CustomerController::updateCustomer(int id, const QString& fullName, const QString& phone, const QString& email)
@@ -29,7 +33,13 @@ bool CustomerController::updateCustomer(int id, const QString& fullName, const Q
         return false;
     }
 
-    Customer customer(id, fullName.trimmed(), phone.trimmed(), email.trimmed());
+    Customer customer(
+        id,
+        fullName.trimmed(),
+        phone.trimmed(),
+        email.trimmed()
+        );
+
     return repository.update(customer);
 }
 

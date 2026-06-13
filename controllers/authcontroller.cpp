@@ -57,6 +57,11 @@ bool AuthController::registerUser(const QString& login,
         return false;
     }
 
+    if (repository.emailExists(cleanEmail)) {
+        errorMessage = "Пользователь с таким email уже существует";
+        return false;
+    }
+
     if (password != repeatPassword) {
         errorMessage = "Пароли не совпадают";
         return false;
@@ -77,7 +82,10 @@ bool AuthController::registerUser(const QString& login,
         "user"
         );
 
-    repository.add(user);
+    if (!repository.add(user)) {
+        errorMessage = "Не удалось зарегистрировать пользователя";
+        return false;
+    }
 
     errorMessage = "";
     return true;

@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 
+#include <QMessageBox>
+
 MainWindow::MainWindow(const User& user, QWidget* parent)
     : QMainWindow(parent),
     currentUser(user),
@@ -9,7 +11,7 @@ MainWindow::MainWindow(const User& user, QWidget* parent)
     profileWindow(nullptr)
 {
     setWindowTitle("Система обработки сделок");
-    resize(600, 400);
+    resize(600, 450);
 
     centralWidget = new QWidget(this);
     mainLayout = new QVBoxLayout(centralWidget);
@@ -19,6 +21,7 @@ MainWindow::MainWindow(const User& user, QWidget* parent)
                                + " | Роль: " + currentUser.role(), this);
 
     profileButton = new QPushButton("Профиль", this);
+    dbTestButton = new QPushButton("Проверить подключение к БД", this);
 
     productsButton = new QPushButton("Товары", this);
     customersButton = new QPushButton("Покупатели", this);
@@ -31,6 +34,7 @@ MainWindow::MainWindow(const User& user, QWidget* parent)
     mainLayout->addSpacing(20);
 
     mainLayout->addWidget(profileButton);
+    mainLayout->addWidget(dbTestButton);
 
     mainLayout->addWidget(productsButton);
     mainLayout->addWidget(customersButton);
@@ -47,14 +51,20 @@ MainWindow::MainWindow(const User& user, QWidget* parent)
     centralWidget->setLayout(mainLayout);
     setCentralWidget(centralWidget);
 
-    connect(productsButton, &QPushButton::clicked,
-            this, &MainWindow::openProductsWindow);
-    connect(customersButton, &QPushButton::clicked,
-            this, &MainWindow::openCustomersWindow);
-    connect(dealsButton, &QPushButton::clicked,
-            this, &MainWindow::openDealsWindow);
     connect(profileButton, &QPushButton::clicked,
             this, &MainWindow::openProfileWindow);
+
+    connect(dbTestButton, &QPushButton::clicked,
+            this, &MainWindow::testDatabaseConnection);
+
+    connect(productsButton, &QPushButton::clicked,
+            this, &MainWindow::openProductsWindow);
+
+    connect(customersButton, &QPushButton::clicked,
+            this, &MainWindow::openCustomersWindow);
+
+    connect(dealsButton, &QPushButton::clicked,
+            this, &MainWindow::openDealsWindow);
 }
 
 void MainWindow::openProductsWindow()
@@ -110,4 +120,25 @@ void MainWindow::updateCurrentUser(const User& user)
 
     roleLabel->setText("Пользователь: " + currentUser.login()
                        + " | Роль: " + currentUser.role());
+}
+
+void MainWindow::testDatabaseConnection()
+{
+    bool success = DatabaseManager::instance().connectToDatabase(
+        "localhost",
+        5433,
+        "sales_app_db",
+        "postgres",
+        "postgres"
+        );
+
+    if (success) {
+        QMessageBox::information(this,
+                                 "База данных",
+                                 "Подключение к PostgreSQL успешно выполнено.");
+    } else {
+        QMessageBox::critical(this,
+                              "Ошибка подключения",
+                              DatabaseManager::instance().lastError());
+    }
 }

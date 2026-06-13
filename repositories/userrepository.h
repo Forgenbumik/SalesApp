@@ -15,13 +15,13 @@ public:
     bool findById(int id, User& user) const;
 
     bool loginExists(const QString& login) const;
+    bool emailExists(const QString& email) const;
 
-    void add(const User& user);
+    bool add(const User& user);
     bool updateProfile(const User& user);
 
 private:
-    QVector<User> users;
-    int nextId;
+    int getUserRoleId() const;
 };
 
 #endif // USERREPOSITORY_H

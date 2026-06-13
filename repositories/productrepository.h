@@ -10,13 +10,12 @@ public:
     ProductRepository();
 
     QVector<Product> getAll() const;
-    void add(const Product& product);
+    bool add(const Product& product);
     bool update(const Product& product);
     bool remove(int id);
 
 private:
-    QVector<Product> products;
-    int nextId;
+    bool productNameExists(const QString& name, int excludeId = -1) const;
 };
 
 #endif // PRODUCTREPOSITORY_H

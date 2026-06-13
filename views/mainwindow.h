@@ -10,6 +10,7 @@
 #include "customerswindow.h"
 #include "dealswindow.h"
 #include "profilewindow.h"
+#include "../database/databasemanager.h"
 
 class MainWindow : public QMainWindow
 {
@@ -33,6 +34,7 @@ private:
     QPushButton* usersButton;
     QPushButton* discountsButton;
     QPushButton* profileButton;
+    QPushButton* dbTestButton;
 
     ProductsWindow* productsWindow;
     CustomersWindow* customersWindow;
@@ -44,6 +46,7 @@ private slots:
     void openDealsWindow();
     void openProfileWindow();
     void updateCurrentUser(const User& user);
+    void testDatabaseConnection();
 };
 
 #endif // MAINWINDOW_H

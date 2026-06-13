@@ -1,11 +1,28 @@
 #include "views/mainwindow.h"
 #include "views/loginwindow.h"
+#include "database/databasemanager.h"
 
 #include <QApplication>
+#include <QMessageBox>
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
+
+    bool dbConnected = DatabaseManager::instance().connectToDatabase(
+        "localhost",
+        5433,
+        "sales_app_db",
+        "postgres",
+        "postgres"
+        );
+
+    if (!dbConnected) {
+        QMessageBox::critical(nullptr,
+                              "Ошибка подключения к базе данных",
+                              DatabaseManager::instance().lastError());
+        return -1;
+    }
 
     LoginWindow loginWindow;
     loginWindow.show();

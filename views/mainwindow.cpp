@@ -27,7 +27,6 @@ discountRulesWindow(nullptr)
     productsButton = new QPushButton("Товары", this);
     customersButton = new QPushButton("Покупатели", this);
     dealsButton = new QPushButton("Сделки", this);
-    usersButton = new QPushButton("Пользователи и роли", this);
     discountsButton = new QPushButton("Правила скидок", this);
 
     mainLayout->addWidget(titleLabel);
@@ -42,10 +41,8 @@ discountRulesWindow(nullptr)
     mainLayout->addWidget(dealsButton);
 
     if (currentUser.isAdmin()) {
-        mainLayout->addWidget(usersButton);
         mainLayout->addWidget(discountsButton);
     } else {
-        usersButton->hide();
         discountsButton->hide();
     }
 

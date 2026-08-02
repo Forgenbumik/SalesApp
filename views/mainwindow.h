@@ -32,7 +32,6 @@ private:
     QPushButton* productsButton;
     QPushButton* customersButton;
     QPushButton* dealsButton;
-    QPushButton* usersButton;
     QPushButton* discountsButton;
     QPushButton* profileButton;
     QPushButton* dbTestButton;

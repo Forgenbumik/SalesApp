@@ -26,6 +26,8 @@ set(PROJECT_SOURCES
     models/customer.cpp
     models/deal.h
     models/deal.cpp
+    models/discountrule.h
+    models/discountrule.cpp
 
     repositories/userrepository.h
         repositories/userrepository.cpp
@@ -81,6 +83,10 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         views/registerwindow.h views/registerwindow.cpp
         views/profilewindow.h views/profilewindow.cpp
         database/databasemanager.cpp
+        models/discountrule.h models/discountrule.cpp
+        repositories/discountrulerepository.cpp
+        controllers/discountrulecontroller.h controllers/discountrulecontroller.cpp
+        views/discountruleswindow.h views/discountruleswindow.cpp
     )
 else()
     add_executable(SalesApp

@@ -8,7 +8,8 @@ MainWindow::MainWindow(const User& user, QWidget* parent)
     productsWindow(nullptr),
     customersWindow(nullptr),
     dealsWindow(nullptr),
-    profileWindow(nullptr)
+    profileWindow(nullptr),
+discountRulesWindow(nullptr)
 {
     setWindowTitle("Система обработки сделок");
     resize(600, 450);
@@ -65,6 +66,8 @@ MainWindow::MainWindow(const User& user, QWidget* parent)
 
     connect(dealsButton, &QPushButton::clicked,
             this, &MainWindow::openDealsWindow);
+    connect(discountsButton, &QPushButton::clicked,
+            this, &MainWindow::openDiscountRulesWindow);
 }
 
 void MainWindow::openProductsWindow()
@@ -141,4 +144,15 @@ void MainWindow::testDatabaseConnection()
                               "Ошибка подключения",
                               DatabaseManager::instance().lastError());
     }
+}
+
+void MainWindow::openDiscountRulesWindow()
+{
+    if (discountRulesWindow == nullptr) {
+        discountRulesWindow = new DiscountRulesWindow();
+    }
+
+    discountRulesWindow->show();
+    discountRulesWindow->raise();
+    discountRulesWindow->activateWindow();
 }

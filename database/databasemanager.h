@@ -9,6 +9,8 @@ class DatabaseManager
 public:
     static DatabaseManager& instance();
 
+    bool connectFromConfig(const QString& filePath = "database.ini");
+
     bool connectToDatabase(const QString& host,
                            int port,
                            const QString& databaseName,

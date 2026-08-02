@@ -9,13 +9,7 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
-    bool dbConnected = DatabaseManager::instance().connectToDatabase(
-        "localhost",
-        5433,
-        "sales_app_db",
-        "postgres",
-        "postgres"
-        );
+    bool dbConnected = DatabaseManager::instance().connectFromConfig("database.ini");
 
     if (!dbConnected) {
         QMessageBox::critical(nullptr,

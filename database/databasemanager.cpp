@@ -1,5 +1,7 @@
 #include "databasemanager.h"
 
+#include <QFileInfo>
+#include <QSettings>
 #include <QSqlError>
 
 DatabaseManager::DatabaseManager()
@@ -24,8 +26,6 @@ bool DatabaseManager::connectToDatabase(const QString& host,
         db = QSqlDatabase::addDatabase("QPSQL", "main_connection");
     }
 
-    // Если подключение уже открыто, повторно его не открываем.
-    // Это важно: повторное open() может ломать работу QSqlQuery.
     if (db.isValid() && db.isOpen()) {
         errorText.clear();
         return true;
@@ -44,6 +44,47 @@ bool DatabaseManager::connectToDatabase(const QString& host,
 
     errorText.clear();
     return true;
+}
+
+bool DatabaseManager::connectFromConfig(const QString& filePath)
+{
+    QFileInfo configFile(filePath);
+
+    if (!configFile.exists()) {
+        errorText = "Не найден файл конфигурации базы данных: "
+                    + configFile.absoluteFilePath();
+        return false;
+    }
+
+    QSettings settings(filePath, QSettings::IniFormat);
+
+    const QString host =
+        settings.value("database/host", "localhost").toString();
+
+    const int port =
+        settings.value("database/port", 5432).toInt();
+
+    const QString databaseName =
+        settings.value("database/name").toString();
+
+    const QString userName =
+        settings.value("database/user").toString();
+
+    const QString password =
+        settings.value("database/password").toString();
+
+    if (databaseName.isEmpty() || userName.isEmpty()) {
+        errorText = "В database.ini не заполнены имя базы данных или пользователь";
+        return false;
+    }
+
+    return connectToDatabase(
+        host,
+        port,
+        databaseName,
+        userName,
+        password
+        );
 }
 
 QSqlDatabase DatabaseManager::database() const

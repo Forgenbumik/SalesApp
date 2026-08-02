@@ -1,0 +1,7 @@
+[database]
+host=localhost
+port=5433
+name=sales_app_db
+user=postgres
+password=postgres
+password=CHANGE_ME

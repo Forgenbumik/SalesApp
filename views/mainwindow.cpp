@@ -127,13 +127,9 @@ void MainWindow::updateCurrentUser(const User& user)
 
 void MainWindow::testDatabaseConnection()
 {
-    bool success = DatabaseManager::instance().connectToDatabase(
-        "localhost",
-        5433,
-        "sales_app_db",
-        "postgres",
-        "postgres"
-        );
+    bool success =
+        DatabaseManager::instance().isOpen()
+        || DatabaseManager::instance().connectFromConfig("database.ini");
 
     if (success) {
         QMessageBox::information(this,

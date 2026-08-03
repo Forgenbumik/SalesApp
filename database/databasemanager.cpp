@@ -3,6 +3,8 @@
 #include <QFileInfo>
 #include <QSettings>
 #include <QSqlError>
+#include <QCoreApplication>
+#include <QDir>
 
 DatabaseManager::DatabaseManager()
 {
@@ -56,7 +58,14 @@ bool DatabaseManager::connectFromConfig(const QString& filePath)
         return false;
     }
 
-    QSettings settings(filePath, QSettings::IniFormat);
+    const QString configPath =
+        QDir(QCoreApplication::applicationDirPath())
+            .filePath("database.ini");
+
+    QSettings settings(
+        configPath,
+        QSettings::IniFormat
+        );
 
     const QString host =
         settings.value("database/host", "localhost").toString();
